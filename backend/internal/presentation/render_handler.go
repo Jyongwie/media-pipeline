@@ -45,10 +45,6 @@ func (h *RenderHandler) CreateJob(w http.ResponseWriter, r *http.Request) {
 		CameraEffect:     req.CameraEffect,
 		AudioSensitivity: req.AudioSensitivity,
 	}
-
-	// 4. In a full app, we'd pass this to an Application Use Case, 
-	// but for this iteration, we'll save it directly via the repository.
-	// (Note: You will need to add a SaveJob method to your postgres_repository.go!)
 	
 	err := h.repo.SaveJob(r.Context(), job)
 	if err != nil {

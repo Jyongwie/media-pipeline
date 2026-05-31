@@ -3,8 +3,8 @@
 A full-stack, event-driven architecture designed to manage and simulate high-intensity background rendering jobs. Built with a globally distributed frontend, a strictly-typed concurrent backend, and real-time WebSocket telemetry.
 
 ![Architecture: Event-Driven](https://img.shields.io/badge/Architecture-Event--Driven-blue)
-![Frontend: Angular 17](https://img.shields.io/badge/Frontend-Angular_17-dd0031?logo=angular)
-![Backend: Go](https://img.shields.io/badge/Backend-Go_1.22-00add8?logo=go)
+![Frontend: Angular 21](https://img.shields.io/badge/Frontend-Angular_21-dd0031?logo=angular)
+![Backend: Go](https://img.shields.io/badge/Backend-Go_1.26-00add8?logo=go)
 ![Database: PostgreSQL](https://img.shields.io/badge/Database-Neon_Serverless-336791?logo=postgresql)
 ![Deployment: Edge/Containerized](https://img.shields.io/badge/Deployment-Vercel_%7C_Render-black)
 
