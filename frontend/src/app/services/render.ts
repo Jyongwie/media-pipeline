@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -26,6 +26,7 @@ export interface RenderJobResponse {
   providedIn: 'root'
 })
 export class RenderService {
+  private apiUrl = isDevMode()? '/api/jobs':'https://media-backend-9v1v.onrender.com/api/jobs';
   constructor(private http: HttpClient) { }
 
   submitJob(job: RenderJobRequest): Observable<{status: string}> {
