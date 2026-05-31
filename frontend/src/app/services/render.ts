@@ -31,10 +31,10 @@ export class RenderService {
 
   submitJob(job: RenderJobRequest): Observable<{status: string}> {
     // Notice we just call /api/jobs. The proxy handles the rest!
-    return this.http.post<{status: string}>('/api/jobs', job);
+    return this.http.post<{status: string}>(this.apiUrl, job);
   }
   // NEW: Fetch all jobs
   getJobs(): Observable<RenderJobResponse[]> {
-    return this.http.get<RenderJobResponse[]>('/api/jobs');
+    return this.http.get<RenderJobResponse[]>(this.apiUrl);
   }
 }
