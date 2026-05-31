@@ -11,6 +11,26 @@ import (
 	"github.com/Jyongwie/media-pipeline/backend/internal/worker"
 )
 
+// NEW: The CORS Middleware Function
+func corsMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// This tells the browser: "Allow requests from any website (*)"
+		// (In a real banking app, we would restrict this strictly to your Vercel URL)
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+		// Browsers send a secret "OPTIONS" request first to check if it's safe. 
+		// We intercept it and say "Yes, it's safe!"
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
 func main() {
 	// 1. Initialize the database connection
 	ctx := context.Background()
@@ -48,5 +68,5 @@ func main() {
 	worker.StartRenderPool(repo)
 
 	fmt.Println("Backend server starting on port 8080...")
-	log.Fatal(http.ListenAndServe(":8080", mux))
+	log.Fatal(http.ListenAndServe(":8080", corsMiddleware(mux)))
 }
