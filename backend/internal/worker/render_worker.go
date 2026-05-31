@@ -10,7 +10,7 @@ import (
 )
 
 // StartRenderPool spins up a background worker that checks for jobs
-func StartRenderPool(repo *infrastructure.Repository) {
+func StartRenderPool(repo *infrastructure.Repository, broadcast func()) {
 	// The 'go' keyword spins this anonymous function off into its own background thread
 	go func() {
 		fmt.Println("⚙️  Background Render Worker spinning up...")
@@ -51,6 +51,8 @@ func StartRenderPool(repo *infrastructure.Repository) {
 			}
 
 			fmt.Printf("✅ Job [%s] successfully completed!\n\n", job.ID)
+
+			broadcast()
 		}
 	}()
 }

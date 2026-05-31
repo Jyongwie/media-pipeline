@@ -11,11 +11,12 @@ import (
 // RenderHandler struct holds our dependencies (like the database repository)
 type RenderHandler struct {
 	repo *infrastructure.Repository
+	hub *Hub
 }
 
 // NewRenderHandler is the constructor
-func NewRenderHandler(repo *infrastructure.Repository) *RenderHandler {
-	return &RenderHandler{repo: repo}
+func NewRenderHandler(repo *infrastructure.Repository, hub *Hub) *RenderHandler {
+	return &RenderHandler{repo: repo, hub: hub}
 }
 
 // CreateJob handles the POST /api/jobs request
@@ -55,6 +56,7 @@ func (h *RenderHandler) CreateJob(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to queue job", http.StatusInternalServerError)
 		return
 	}
+	h.hub.Broadcast()
 
 	// 5. Return success
 	w.Header().Set("Content-Type", "application/json")

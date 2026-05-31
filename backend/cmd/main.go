@@ -51,10 +51,14 @@ func main() {
 	// This guarantees the pool closes when main() exits, preventing memory leaks.
 	defer repo.Close()
 
-	renderHandler := presentation.NewRenderHandler(repo)
+	hub := presentation.NewHub()
+
+	renderHandler := presentation.NewRenderHandler(repo, hub)
 
 	fmt.Println("Database connected successfully!")
 	mux := http.NewServeMux()
+
+	mux.HandleFunc("GET /api/ws", hub.HandleConnections)
 
 	// A simple health check endpoint
 	mux.HandleFunc("GET /api/health", func(w http.ResponseWriter, r *http.Request) {
@@ -65,7 +69,7 @@ func main() {
 
 	mux.HandleFunc("POST /api/jobs", renderHandler.CreateJob)
 	mux.HandleFunc("GET /api/jobs", renderHandler.GetJobs)
-	worker.StartRenderPool(repo)
+	worker.StartRenderPool(repo, hub.Broadcast)
 
 	fmt.Println("Backend server starting on port 8080...")
 	log.Fatal(http.ListenAndServe(":8080", corsMiddleware(mux)))

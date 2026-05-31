@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RenderJobResponse, RenderService } from './services/render';
+import { webSocket } from 'rxjs/webSocket';
 
 @Component({
   selector: 'app-root',
@@ -284,6 +285,17 @@ export class AppComponent implements OnInit {
   // fetch job on initial load
   ngOnInit() {
     this.loadJobs();
+
+    const ws = new WebSocket('wss://media-backend-9v1v.onrender.com/api/ws');
+
+    ws.onmessage = (event) => {
+      if (event.data === 'REFRESH') {
+        console.log('Live update received from cloud server');
+        this.loadJobs()
+      }
+    }
+    ws.onopen = () => console.log('Websocket connected successfully.');
+    ws.onerror = (error) => console.error('Websocket Error: ', error);
   }
 
   loadJobs() {
