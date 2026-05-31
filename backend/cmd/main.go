@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"github.com/Jyongwie/media-pipeline/backend/internal/infrastructure"
 	"github.com/Jyongwie/media-pipeline/backend/internal/presentation"
 	"github.com/Jyongwie/media-pipeline/backend/internal/worker"
@@ -13,8 +14,14 @@ import (
 func main() {
 	// 1. Initialize the database connection
 	ctx := context.Background()
-	dbConnString := "postgres://admin:secretpassword@localhost:5432/mediadb"
-	
+	dbConnString := os.Getenv("postgresql://neondb_owner:npg_LuqCrKSihU68@ep-silent-rice-aqplyc8q-pooler.c-8.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require")
+
+	if dbConnString == "" {
+		dbConnString = "postgres://admin:secretpassword@localhost:5432/mediadb"
+		fmt.Println("Using local Docker database connection...")
+	} else {
+		fmt.Println("Using Production database connection...")
+	}
 	repo, err := infrastructure.NewRepository(ctx, dbConnString)
 	if err != nil {
 		log.Fatalf("Failed to initialize database: %v", err)
