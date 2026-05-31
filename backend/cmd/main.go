@@ -34,7 +34,7 @@ func corsMiddleware(next http.Handler) http.Handler {
 func main() {
 	// 1. Initialize the database connection
 	ctx := context.Background()
-	dbConnString := os.Getenv("postgresql://neondb_owner:npg_LuqCrKSihU68@ep-silent-rice-aqplyc8q-pooler.c-8.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require")
+	dbConnString := os.Getenv("DATABASE_URL")
 
 	if dbConnString == "" {
 		dbConnString = "postgres://admin:secretpassword@localhost:5432/mediadb"
