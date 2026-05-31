@@ -1,0 +1,21 @@
+# Node & Angular (Frontend)
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+# Go (Backend)
+# Ignore compiled binaries
+backend/backend
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Database & Environment
+pgdata/
+.env
+
+# OS generated files
+.DS_Store
+Thumbs.db
